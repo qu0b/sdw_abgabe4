@@ -1,0 +1,22 @@
+{
+  "name": "sdw_abgabe4",
+  "version": "1.0.0",
+  "description": "cloud_system",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/qu0b/sdw_abgabe4.git"
+  },
+  "author": "Max Jerg, Barbara Dimmy, Stefan Starflinger",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/qu0b/sdw_abgabe4/issues"
+  },
+  "homepage": "https://github.com/qu0b/sdw_abgabe4#readme",
+  "dependencies": {
+    "firebase": "^3.6.4"
+  }
+}
