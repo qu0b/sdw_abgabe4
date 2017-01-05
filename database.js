@@ -19,31 +19,31 @@ function writeAddress(addressId, street, postalcode, city, county, country) {
   });
 }
 
-function writeContact(userId, addressId) {
+function writeContact(Id, addressId) {
   firebase.database().ref('contact/' + userId).set({
-    user: userId,
     address: addressId
   });
 }
 
-function writeProduct(productId, name, price) {
+function writeProduct(productId, name, price, locationId) {
   firebase.database().ref('product/' + productId).set({
-    user: userId,
-    address: addressId
+    name: name,
+    price: price,
+    locationId: locationId
   });
 }
 
 function writeOrder(orderId, userId, addressId, qunatity, price) {
   firebase.database().ref('order/' + orderId).set({
     user: userId,
-    addressId:quantity,
+    addressId:addressId,
+    quantity:quantity,
     price:price
   });
 }
 
-function writeProduct(orderId, userId, qunatity, price) {
+function writeWharehouse(wharehouseId, locationId) {
   firebase.database().ref('product/' + productId).set({
-    user: userId,
-    address: addressId
+    locationId: locationId,
   });
 }
