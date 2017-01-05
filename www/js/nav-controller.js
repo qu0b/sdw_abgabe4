@@ -1,5 +1,13 @@
 angular.module('navController', [])
+	
+
 	.controller('nav', function($scope, $state) {
+
+		$scope.doLogOut = function() {
+
+			console.log("doLogOut");
+		}
+
 		$scope.title = 'Backs ERP System';
 
 		// returns true if the current router url matches the passed in url
@@ -26,6 +34,13 @@ angular.module('navController', [])
 	})
 
 	.controller('LoginController', function($scope) {
+
+		$scope.stefansvar = "asd";
+
+		$scope.stefansfunction = function() {
+
+			console.log("helolooooooo");
+		}
 		
 
 		var database = firebase.database();
