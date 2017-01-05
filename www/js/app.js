@@ -24,6 +24,30 @@
 		}
 	}
 
+	app.run(function($rootScope) {
+    	//wird einmalig ausgeführt
+
+    	//set up firebase
+    	var config = {
+		    apiKey: "AIzaSyBXl1fqqllplpJQXC-wR-Ay3qTpQUV4ZKY",
+		    authDomain: "abgabe4.firebaseapp.com",
+		    databaseURL: "https://abgabe4.firebaseio.com",
+		    storageBucket: "abgabe4.appspot.com",
+		    messagingSenderId: "692350034443"
+		  };
+		firebase.initializeApp(config);
+
+		//set up listener, schaut ob ein oder ausgeloggt wird
+		firebase.auth().onAuthStateChanged(function(user) {
+		  if (user) {
+			console.log("logged in: ");
+			console.log(user);
+		  } else {
+			console.log("logged out.")
+		  }
+		});
+	});	
+
 	app.config(function($stateProvider, $urlRouterProvider, $controllerProvider){
 		var origController = app.controller
 		app.controller = function (name, constructor){
