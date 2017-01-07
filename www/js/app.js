@@ -108,7 +108,6 @@
 			})
 	})
 
-
 	.directive('updateTitle', ['$rootScope', '$timeout',
 		function($rootScope, $timeout) {
 			return {
