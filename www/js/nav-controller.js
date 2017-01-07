@@ -1,6 +1,6 @@
 angular.module('navController', ["firebase"])
-	
-	.controller('nav', function($scope, $state, $modal) {
+
+	.controller('nav', function($scope, $state, $modal, $firebaseArray) {
 
 		$scope.loginLogout = function() {
 
@@ -77,11 +77,10 @@ angular.module('navController', ["firebase"])
 
 					$scope.submit = function() {
 						console.log("Registering user");
-						if ($scope.login_email && $scope.login_pw) {
-						console.log($scope.login_email);
-						console.log($scope.login_pw);
+						if ($scope.register_email && $scope.register_pw) {
+						console.log($scope.login_email, $scope.login_pw);
 
-						firebase.auth().signInWithEmailAndPassword($scope.login_email, $scope.login_pw).then(function(user) {
+						firebase.auth().createUserWithEmailAndPassword($scope.register_email, $scope.register_pw).then(function(user) {
 
 							$modalInstance.close();
 
@@ -95,8 +94,8 @@ angular.module('navController', ["firebase"])
 						$scope.$apply(function(){
 							$scope.loginError = error.message;
 						});
-
 					});
+
 						}
 					};
 
@@ -138,7 +137,7 @@ angular.module('navController', ["firebase"])
 .controller('UserCtrl', function($scope) {
 
 
-		
+
 })
 
 
@@ -157,6 +156,6 @@ angular.module('navController', ["firebase"])
     	});
   	}
 
-  	
-		
+
+
 });
