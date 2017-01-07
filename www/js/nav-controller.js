@@ -1,5 +1,10 @@
+<<<<<<< HEAD
 angular.module('navController', [])
 
+=======
+angular.module('navController', ["firebase"])
+	
+>>>>>>> 45522bfcc362b3aa090f5bb4b6b2dfc204b42cc4
 
 	.controller('nav', function($scope, $state, $modal) {
 
@@ -124,8 +129,8 @@ angular.module('navController', [])
 				url: '#/'
 			},
 			{
-				name: 'Theme Example',
-				url: '#/theme'
+				name: 'Bills',
+				url: '#/bills'
 			},
 			{
 				name: 'User',
@@ -136,8 +141,9 @@ angular.module('navController', [])
 
 
 
-	.controller('UserCtrl', function($scope) {
+.controller('UserCtrl', function($scope) {
 
+<<<<<<< HEAD
 		$scope.stefansvar = "asd";
 
 		$scope.stefansfunction = function() {
@@ -147,13 +153,21 @@ angular.module('navController', [])
 
 
 		var database = firebase.database();
+=======
+		
+})
+>>>>>>> 45522bfcc362b3aa090f5bb4b6b2dfc204b42cc4
 
 
+.controller('BillsCtrl', function($scope, $firebaseArray) {
 
-		function register (email, pw) {
+	var ref = firebase.database().ref().child("bills");
+  	$scope.bills = $firebaseArray(ref);
 
-			console.log("register: "+email+" "+pw);
+  	$scope.submit = function() {
+  		console.log("save bill");
 
+<<<<<<< HEAD
 			firebase.auth().createUserWithEmailAndPassword(email, pw).catch(function(error) {
 			  // Handle Errors here.
 			  var errorCode = error.code;
@@ -172,16 +186,16 @@ angular.module('navController', [])
 
 			});
 		}
+=======
+  		$scope.bills.$add({
+  			no: $scope.bill_no,
+      		title: $scope.bill_title,
+      		amount: $scope.bill_amount
+    	});
+  	}
+>>>>>>> 45522bfcc362b3aa090f5bb4b6b2dfc204b42cc4
 
-		function getCurrentUser() {
-			console.log("getCurrentUser");
+  	
 
-			var user = firebase.auth().currentUser;
-
-			if (user) {
-			  console.log(user)
-			} else {
-			  console.log("getCurrentUser: No user currently logged in.")
-			}
-		}
+		
 });
