@@ -43,12 +43,20 @@
 			console.log("logged in: ");
 			console.log(user);
 
-			$rootScope.$apply(function(){  $rootScope.loginstatus = "Logout"; });
+			$rootScope.$apply(function(){  
+				$rootScope.loginstatus = "Logout";
+				$rootScope.user = user;
+
+			});
 
 		  } else {
 			console.log("logged out.")
 
-			$rootScope.$apply(function(){   $rootScope.loginstatus = "Login";   });
+			$rootScope.$apply(function(){   
+				$rootScope.loginstatus = "Login";   
+				$rootScope.user = null;
+
+			});
 		  }
 		});
 	});	
