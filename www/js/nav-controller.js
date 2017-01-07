@@ -1,11 +1,5 @@
-<<<<<<< HEAD
-angular.module('navController', [])
-
-=======
 angular.module('navController', ["firebase"])
 	
->>>>>>> 45522bfcc362b3aa090f5bb4b6b2dfc204b42cc4
-
 	.controller('nav', function($scope, $state, $modal) {
 
 		$scope.loginLogout = function() {
@@ -143,20 +137,9 @@ angular.module('navController', ["firebase"])
 
 .controller('UserCtrl', function($scope) {
 
-<<<<<<< HEAD
-		$scope.stefansvar = "asd";
 
-		$scope.stefansfunction = function() {
-
-			console.log("helolooooooo");
-		}
-
-
-		var database = firebase.database();
-=======
 		
 })
->>>>>>> 45522bfcc362b3aa090f5bb4b6b2dfc204b42cc4
 
 
 .controller('BillsCtrl', function($scope, $firebaseArray) {
@@ -167,35 +150,13 @@ angular.module('navController', ["firebase"])
   	$scope.submit = function() {
   		console.log("save bill");
 
-<<<<<<< HEAD
-			firebase.auth().createUserWithEmailAndPassword(email, pw).catch(function(error) {
-			  // Handle Errors here.
-			  var errorCode = error.code;
-			  var errorMessage = error.message;
-			  // ...
-			});
-		}
-
-		function doLogin(email, password) {
-			console.log("doLogin");
-
-			firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
-		  		// Handle Errors here.
-		  		var errorCode = error.code;
-		  		var errorMessage = error.message;
-
-			});
-		}
-=======
   		$scope.bills.$add({
   			no: $scope.bill_no,
       		title: $scope.bill_title,
       		amount: $scope.bill_amount
     	});
   	}
->>>>>>> 45522bfcc362b3aa090f5bb4b6b2dfc204b42cc4
 
   	
-
 		
 });
