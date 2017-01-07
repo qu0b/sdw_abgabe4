@@ -1,4 +1,4 @@
-angular.module('navController', [])
+angular.module('navController', ["firebase"])
 	
 
 	.controller('nav', function($scope, $state, $modal) {
@@ -100,7 +100,22 @@ angular.module('navController', [])
 })
 
 
-.controller('BillsCtrl', function($scope) {
+.controller('BillsCtrl', function($scope, $firebaseArray) {
+
+	var ref = firebase.database().ref().child("bills");
+  	$scope.bills = $firebaseArray(ref);
+
+  	$scope.submit = function() {
+  		console.log("save bill");
+
+  		$scope.bills.$add({
+  			no: $scope.bill_no,
+      		title: $scope.bill_title,
+      		amount: $scope.bill_amount
+    	});
+  	}
+
+  	
 
 		
 });

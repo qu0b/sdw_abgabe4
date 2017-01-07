@@ -93,6 +93,7 @@
 			.state('bills', {
 				url: "/bills",
 				templateUrl: viewsPrefix + "bills.html",
+				controller: 'BillsCtrl',
 				data: {
 					pageTitle: 'Bills'
 				}
