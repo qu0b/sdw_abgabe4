@@ -82,8 +82,8 @@ angular.module('navController', [])
 				url: '#/'
 			},
 			{
-				name: 'Theme Example',
-				url: '#/theme'
+				name: 'Bills',
+				url: '#/bills'
 			},
 			{
 				name: 'User',
@@ -94,52 +94,13 @@ angular.module('navController', [])
 
 
 
-	.controller('UserCtrl', function($scope) {
+.controller('UserCtrl', function($scope) {
 
-		$scope.stefansvar = "asd";
-
-		$scope.stefansfunction = function() {
-
-			console.log("helolooooooo");
-		}
 		
-
-		var database = firebase.database();
-
+})
 
 
-		function register (email, pw) {
+.controller('BillsCtrl', function($scope) {
 
-			console.log("register: "+email+" "+pw);
-
-			firebase.auth().createUserWithEmailAndPassword(email, pw).catch(function(error) {
-			  // Handle Errors here.
-			  var errorCode = error.code;
-			  var errorMessage = error.message;
-			  // ...
-			});
-		}
-
-		function doLogin(email, password) {
-			console.log("doLogin");
-
-			firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
-		  		// Handle Errors here.
-		  		var errorCode = error.code;
-		  		var errorMessage = error.message;
-		  
-			});
-		}
-
-		function getCurrentUser() {
-			console.log("getCurrentUser");
-
-			var user = firebase.auth().currentUser;
-
-			if (user) {
-			  console.log(user)
-			} else {
-			  console.log("getCurrentUser: No user currently logged in.")
-			}
-		}
+		
 });

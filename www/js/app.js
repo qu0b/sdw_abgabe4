@@ -90,11 +90,11 @@
 					pageTitle: 'User'
 				}
 			})
-			.state('theme', {
-				url: "/theme",
-				templateUrl: viewsPrefix + "theme.html",
+			.state('bills', {
+				url: "/bills",
+				templateUrl: viewsPrefix + "bills.html",
 				data: {
-					pageTitle: 'Theme Example'
+					pageTitle: 'Bills'
 				}
 			})
 	})
