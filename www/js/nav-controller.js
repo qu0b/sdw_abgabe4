@@ -127,17 +127,38 @@ angular.module('navController', ["firebase"])
 				url: '#/bills'
 			},
 			{
-				name: 'User',
-				url: '#/user'
+				name: 'Orders',
+				url: '#/orders'
+			},
+			{
+				name: 'Users',
+				url: '#/users'
 			}
 		]
 	})
 
 
 
-.controller('UserCtrl', function($scope) {
+.controller('UsersCtrl', function($scope) {
 
 
+		
+})
+
+.controller('OrdersCtrl', function($scope, $firebaseArray) {
+
+	var ref = firebase.database().ref().child("orders");
+  	$scope.orders = $firebaseArray(ref);
+
+  	$scope.submit = function() {
+  		console.log("save order");
+
+  		$scope.orders.$add({
+  			no: $scope.order_no,
+      		title: $scope.order_title,
+      		quantity: $scope.order_quantity
+    	});
+  	}
 		
 })
 
@@ -156,7 +177,5 @@ angular.module('navController', ["firebase"])
       		amount: $scope.bill_amount
     	});
   	}
-
-  	
 		
 });
