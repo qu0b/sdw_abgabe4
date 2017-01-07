@@ -1,5 +1,5 @@
 angular.module('navController', [])
-	
+
 
 	.controller('nav', function($scope, $state, $modal) {
 
@@ -27,7 +27,7 @@ angular.module('navController', [])
 				//hilfscontroller fuer das modal
 				var ModalController = function ($scope, $modalInstance) {
 				  $scope.dialogTitle = "Login";
-			      
+
 			      $scope.submit = function() {
 			      	console.log("Pressed sign in button");
 			        if ($scope.login_email && $scope.login_pw) {
@@ -37,7 +37,7 @@ angular.module('navController', [])
 			   			firebase.auth().signInWithEmailAndPassword($scope.login_email, $scope.login_pw).then(function(user) {
 
 			   				$modalInstance.close();
-			   				
+
 			   			}, function(error) {
 						  // Handle Errors here.
 						  var errorCode = error.code;
@@ -48,7 +48,7 @@ angular.module('navController', [])
 						  $scope.$apply(function(){
 						    $scope.loginError = error.message;
 						  });
-						  
+
 						});
 			        }
 			      };
@@ -59,12 +59,54 @@ angular.module('navController', [])
 			      templateUrl: 'views/loginModal.html',
 			      controller: ModalController
 			    });
+
+
 			}
 
 
 
-			
 
+
+
+
+		}
+
+		$scope.register = function()
+		{
+			var ModalController2 = function ($scope, $modalInstance) {
+				$scope.dialogTitle = "Register";
+
+					$scope.submit = function() {
+						console.log("Registering user");
+						if ($scope.login_email && $scope.login_pw) {
+						console.log($scope.login_email);
+						console.log($scope.login_pw);
+
+						firebase.auth().signInWithEmailAndPassword($scope.login_email, $scope.login_pw).then(function(user) {
+
+							$modalInstance.close();
+
+						}, function(error) {
+						// Handle Errors here.
+						var errorCode = error.code;
+						var errorMessage = error.message;
+
+						console.log(error.message);
+						// ...
+						$scope.$apply(function(){
+							$scope.loginError = error.message;
+						});
+
+					});
+						}
+					};
+
+			};
+
+			$modal.open({
+					templateUrl: 'views/registerModal.html',
+					controller: ModalController2
+				});
 		}
 
 		$scope.title = 'Backs ERP System';
@@ -102,7 +144,7 @@ angular.module('navController', [])
 
 			console.log("helolooooooo");
 		}
-		
+
 
 		var database = firebase.database();
 
@@ -127,7 +169,7 @@ angular.module('navController', [])
 		  		// Handle Errors here.
 		  		var errorCode = error.code;
 		  		var errorMessage = error.message;
-		  
+
 			});
 		}
 
