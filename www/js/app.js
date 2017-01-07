@@ -42,8 +42,13 @@
 		  if (user) {
 			console.log("logged in: ");
 			console.log(user);
+
+			$rootScope.$apply(function(){  $rootScope.loginstatus = "Logout"; });
+
 		  } else {
 			console.log("logged out.")
+
+			$rootScope.$apply(function(){   $rootScope.loginstatus = "Login";   });
 		  }
 		});
 	});	
@@ -69,22 +74,14 @@
 					pageTitle: 'Home'
 				}
 			})
-			.state('login', {
-				url: "/login",
-				templateUrl: viewsPrefix + "login.html",
+			.state('user', {
+				url: "/user",
+				templateUrl: viewsPrefix + "user.html",
+				controller: 'UserCtrl',
 				data: {
-					pageTitle: 'Login'
+					pageTitle: 'User'
 				}
 			})
-			/*
-			.state('contact.list', {
-				url: "/list",
-				templateUrl: viewsPrefix + "contact-list.html",
-				controller: function($scope){
-					$scope.things = ["A", "Set", "Of", "Things"];
-				}
-			})
-			*/
 			.state('theme', {
 				url: "/theme",
 				templateUrl: viewsPrefix + "theme.html",
@@ -93,6 +90,29 @@
 				}
 			})
 	})
+
+	.directive('modalDialog', function() {
+	    return {
+	      restrict: 'E',
+	      replace: true,
+	      transclude: true,
+	      link: function(scope) {
+	        scope.cancel = function() {
+	          scope.$dismiss('cancel');
+	        };
+	      },
+	      template:
+	        "<div>" +
+	          "<div class='modal-header'>" +
+	            "<h3 ng-bind='dialogTitle'></h3>" +
+	            "<div ng-click='cancel()'>X</div>" +
+	          "</div>" +
+	          "<div class='modal-body' ng-transclude></div>" +
+	        "</div>"
+	    };
+  	})
+
+
 	.directive('updateTitle', ['$rootScope', '$timeout',
 		function($rootScope, $timeout) {
 			return {
