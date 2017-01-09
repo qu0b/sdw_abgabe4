@@ -141,40 +141,84 @@ angular.module('navController', ["firebase"])
 .controller('UsersCtrl', function($scope) {
 
 
-		
+
 })
 
 .controller('OrdersCtrl', function($scope, $firebaseArray) {
 
 	var ref = firebase.database().ref().child("orders");
-  	$scope.orders = $firebaseArray(ref);
+  var orders = $firebaseArray(ref);
+
+	orders.$loaded()
+			.then(function(){
+					angular.forEach(orders, function(order) {
+							order.no=sjcl.decrypt("password", order.no);
+							order.title=sjcl.decrypt("password", order.title);
+							order.quantity=sjcl.decrypt("password", order.quantity);
+					})
+			});
+			$scope.orders=orders;
 
   	$scope.submit = function() {
   		console.log("save order");
 
   		$scope.orders.$add({
-  			no: $scope.order_no,
-      		title: $scope.order_title,
-      		quantity: $scope.order_quantity
-    	});
+  			no: sjcl.encrypt("password",$scope.order_no),
+      		title: sjcl.encrypt("password",$scope.order_title),
+      		quantity: sjcl.encrypt("password",$scope.order_quantity)
+    	}).then(function(ref) {
+				var id = ref.key;
+				console.log("added rec with id ",id);
+				console.log(orders.$indexFor(id));
+
+				var place=orders.$indexFor(id);
+
+				orders[place].no=sjcl.decrypt("password", orders[place].no);
+				orders[place].title=sjcl.decrypt("password", orders[place].title);
+				orders[place].quantity=sjcl.decrypt("password", orders[place].quantity);
+
+			});
   	}
-		
+
 })
 
 
 .controller('BillsCtrl', function($scope, $firebaseArray) {
 
 	var ref = firebase.database().ref().child("bills");
-  	$scope.bills = $firebaseArray(ref);
+  var bills = $firebaseArray(ref);
+
+	bills.$loaded()
+			.then(function(){
+					angular.forEach(bills, function(bill) {
+							bill.no=sjcl.decrypt("password", bill.no);
+							bill.title=sjcl.decrypt("password", bill.title);
+							bill.amount=sjcl.decrypt("password", bill.amount);
+					})
+			});
+			$scope.bills=bills;
 
   	$scope.submit = function() {
-  		console.log("save bill");
+  		console.log("save order");
 
   		$scope.bills.$add({
-  			no: $scope.bill_no,
-      		title: $scope.bill_title,
-      		amount: $scope.bill_amount
-    	});
+  			no: sjcl.encrypt("password",$scope.bill_no),
+      		title: sjcl.encrypt("password",$scope.bill_title),
+      		amount: sjcl.encrypt("password",$scope.bill_amount)
+    	}).then(function(ref) {
+				var id = ref.key;
+				console.log("added rec with id ",id);
+				console.log(bills.$indexFor(id));
+
+				var place=bills.$indexFor(id);
+
+				bills[place].no=sjcl.decrypt("password", bills[place].no);
+				bills[place].title=sjcl.decrypt("password", bills[place].title);
+				bills[place].amount=sjcl.decrypt("password", bills[place].amount);
+
+			});
   	}
 
-});
+
+
+})
