@@ -146,7 +146,7 @@ angular.module('navController', ["firebase"])
 
 .controller('OrdersCtrl', function($scope, $firebaseArray) {
 
-	var ref = firebase.database().ref().child("orders");
+	var ref = firebase.database().ref().child("unencrypted_orders");
   	$scope.orders = $firebaseArray(ref);
 
   	$scope.submit = function() {
@@ -164,7 +164,7 @@ angular.module('navController', ["firebase"])
 
 .controller('BillsCtrl', function($scope, $firebaseArray) {
 
-	var ref = firebase.database().ref().child("bills");
+	var ref = firebase.database().ref().child("unencrypted_bills");
   	$scope.bills = $firebaseArray(ref);
 
   	$scope.submit = function() {
