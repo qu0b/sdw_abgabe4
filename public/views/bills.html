@@ -1,0 +1,46 @@
+<div class="container theme-showcase" role="main">
+  <div class="page-header">
+    <h1>Bills</h1>
+  </div>
+    
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Title</th>
+            <th>Amount</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="bill in bills">
+            <td>{{ bill.no }}</td>
+            <td>{{ bill.title }}</td>
+            <td>{{ bill.amount }}</td>
+          </tr>
+        </tbody>
+      </table>
+
+<div class="page-header">
+    <h1>New bill</h1>
+  </div>
+
+<div class="modal-body" id="modal-body">
+    <ul>
+      <form class="form-inline" ng-submit="submit()">
+        <div class="form-group">
+          <input type="text" class="form-control" ng-model="bill_no" name="text" placeholder="Number"/>
+        </div>
+        
+       <div class="form-group">
+          <input type="text" class="form-control" ng-model="bill_title" name="text" placeholder="Title"/>
+        </div>
+
+        <div class="form-group">
+          <input type="text" class="form-control" ng-model="bill_amount" name="text" placeholder="Amount"/>
+        </div>
+
+        <input type="submit" id="submit" class="btn btn-primary" value="Save" />
+      </form>
+      <p>{{loginError}}</p>
+    </ul>
+</div>

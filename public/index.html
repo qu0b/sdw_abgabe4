@@ -37,6 +37,7 @@
     <script src="lib/angular/js/angular-ui-bootstrap-tpls.js"></script>
 
     <script src="https://www.gstatic.com/firebasejs/3.6.2/firebase.js"></script>
+    <script src="https://cdn.firebase.com/libs/angularfire/2.2.0/angularfire.min.js"></script>
 
     <!-- your app's js -->
     <script src="js/app.js"></script>
@@ -53,7 +54,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#/" ng-bind="title"></a>
+          <span class="navbar-text" ng-bind="title"></span>
         </div>
         <script type="text/ng-template" id="nav-item.html">
           <span ng-if="page.name && !page.url">{{page.name}}</span>
@@ -73,6 +74,11 @@
              <li class="nav-item">
               <a class="nav-link" ng-click="loginLogout()">{{loginstatus}}</a>
             </li>
+            </li>
+             <li class="nav-item">
+              <a class="nav-link" ng-click="register()">Register</a>
+            </li>
+
           </ul>
         </div><!--/.nav-collapse -->
       </div>

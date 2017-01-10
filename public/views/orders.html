@@ -1,0 +1,46 @@
+<div class="container theme-showcase" role="main">
+  <div class="page-header">
+    <h1>Orders</h1>
+  </div>
+    
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Title</th>
+            <th>Quantity</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="order in orders">
+            <td>{{ order.no }}</td>
+            <td>{{ order.title }}</td>
+            <td>{{ order.quantity }}</td>
+          </tr>
+        </tbody>
+      </table>
+
+<div class="page-header">
+    <h1>New order</h1>
+  </div>
+
+<div class="modal-body" id="modal-body">
+    <ul>
+      <form class="form-inline" ng-submit="submit()">
+        <div class="form-group">
+          <input type="text" class="form-control" ng-model="order_no" name="text" placeholder="Number"/>
+        </div>
+        
+       <div class="form-group">
+          <input type="text" class="form-control" ng-model="order_title" name="text" placeholder="Title"/>
+        </div>
+
+        <div class="form-group">
+          <input type="text" class="form-control" ng-model="order_quantity" name="text" placeholder="Quantity"/>
+        </div>
+
+        <input type="submit" id="submit" class="btn btn-primary" value="Save" />
+      </form>
+      <p>{{loginError}}</p>
+    </ul>
+</div>
