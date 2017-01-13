@@ -63,7 +63,7 @@ angular.module('navController', ["firebase"])
 						$scope.$apply(function(){
 							$scope.loginError = error.message;
 						});
-					});
+						});
 
 						}
 					};
@@ -107,15 +107,93 @@ angular.module('navController', ["firebase"])
 
 
 
-.controller('UsersCtrl', function($scope) {
+.controller('UsersCtrl', function($scope, $rootScope) {
+
+	$scope.isAdmin = false;
+
+	if ($rootScope.user.displayName == "Admin") { $scope.isAdmin = true};
+
+	$scope.roles = ["Admin", "Produktionsbetrieb", "Kunde", "Lieferant"];
+
+	var database = firebase.database();
+
+	$scope.users= {};
+
+	var usersRef = firebase.database().ref('users/');
+	usersRef.on('value', function(snapshot) {
+
+			$scope.users = snapshot.val();
+	  		console.log($scope.users);
+	  		console.log($scope.users.Kunde);
+	  		$scope.$applyAsync();
+			  
+	});
+
+	$scope.submit = function() {
+  		console.log("UsersCtrl: make user");
+
+  		console.log($scope.user_email);
+  		console.log($scope.user_pw);
+  		console.log($scope.user_role);
+
+  		if ($scope.user_email && $scope.user_pw && $scope.user_role) {
+
+  		
+
+			doIt();
 
 
+
+  		}
+
+  	}
+
+  	function doIt() {
+
+  		var config = {
+		    apiKey: "AIzaSyBXl1fqqllplpJQXC-wR-Ay3qTpQUV4ZKY",
+		    authDomain: "abgabe4.firebaseapp.com",
+		    databaseURL: "https://abgabe4.firebaseio.com",
+		    storageBucket: "abgabe4.appspot.com",
+		    messagingSenderId: "692350034443"
+			};
+
+  		var secondaryApp = firebase.initializeApp(config, "Secondary");
+
+	  		secondaryApp.auth().createUserWithEmailAndPassword($scope.user_email, $scope.user_pw).then(function(newuser) {
+	  			//success
+	  			console.log(newuser);
+
+	  			secondaryApp.auth().currentUser.updateProfile({
+				  displayName: $scope.user_role
+				});
+
+	  			secondaryApp.auth().signOut();
+
+	  			firebase.database().ref('users/' + newuser.uid).set({
+				    email: newuser.email,
+				    role: $scope.user_role
+				});
+
+				
+
+	  			$scope.errormessage = "";
+				$scope.user_email = $scope.user_pw = $scope.user_role = "";
+
+
+			}, function(error) {
+				var errorMessage = error.message;
+				console.log(error.message);
+				$scope.errormessage = error.message;
+				$scope.$applyAsync();
+			});
+  	}
 		
 })
 
 .controller('OrdersCtrl', function($scope, $firebaseArray) {
 
-	var ref = firebase.database().ref().child("unencrypted_orders");
+	var ref = firebase.database().ref().child("orders");
   	$scope.orders = $firebaseArray(ref);
 
   	$scope.submit = function() {
@@ -133,7 +211,7 @@ angular.module('navController', ["firebase"])
 
 .controller('BillsCtrl', function($scope, $firebaseArray) {
 
-	var ref = firebase.database().ref().child("unencrypted_bills");
+	var ref = firebase.database().ref().child("bills");
   	$scope.bills = $firebaseArray(ref);
 
   	$scope.submit = function() {

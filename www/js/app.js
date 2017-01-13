@@ -37,10 +37,10 @@
 		    storageBucket: "abgabe4.appspot.com",
 		    messagingSenderId: "692350034443"
 		  };
-		firebase.initializeApp(config);
+		var mainfb = firebase.initializeApp(config);
 
 		//set up listener, schaut ob ein oder ausgeloggt wird
-		firebase.auth().onAuthStateChanged(function(user) {
+		mainfb.auth().onAuthStateChanged(function(user) {
 		  if (user) {
 			console.log("logged in: ");
 			console.log(user);
