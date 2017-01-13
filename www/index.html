@@ -45,7 +45,7 @@
   </head>
 
   <body>
-    <nav class="navbar navbar-inverse navbar-fixed-top" ng-controller="nav">
+    <nav class="navbar navbar-inverse navbar-fixed-top" ng-controller="nav" ng-show="showNavbar">
       <div class="container">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -72,13 +72,9 @@
             <li ng-repeat="page in pages" ng-class="{active: isUrl(page.url)}" ng-include="'nav-item.html'">
             </li>
              <li class="nav-item">
-              <a class="nav-link" ng-click="loginLogout()">{{loginstatus}}</a>
+              <a class="nav-link" ng-click="logout()">{{loginstatus}}</a>
             </li>
             </li>
-             <li class="nav-item">
-              <a class="nav-link" ng-click="register()">Register</a>
-            </li>
-
           </ul>
         </div><!--/.nav-collapse -->
       </div>

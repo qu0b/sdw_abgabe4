@@ -24,8 +24,10 @@
 		}
 	}
 
-	app.run(function($rootScope) {
+	app.run(function($rootScope, $location) {
     	//wird einmalig ausgeführt
+
+    	$rootScope.showNavbar = false;
 
     	//set up firebase
     	var config = {
@@ -43,6 +45,9 @@
 			console.log("logged in: ");
 			console.log(user);
 
+			$location.path("/home");
+			$rootScope.showNavbar = true;
+
 			$rootScope.$apply(function(){
 				$rootScope.loginstatus = "Logout";
 				$rootScope.user = user;
@@ -52,6 +57,9 @@
 		  } else {
 			console.log("logged out.")
 
+			$location.path("/");
+			$rootScope.showNavbar = false;
+
 			$rootScope.$apply(function(){
 				$rootScope.loginstatus = "Login";
 				$rootScope.user = null;
@@ -59,6 +67,22 @@
 			});
 		  }
 		});
+
+		$rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams){ 
+
+			console.log("routeChangeStart");
+			console.log(toState);
+			if(toState.templateUrl!="views/home.html" && toState.templateUrl!="views/login.html") {
+				//das erste if statement braucht man, weil der login zu langsam vom server zurück kommt und es sonst den redirekt wieder rueckgaenig macht
+
+				if ( $rootScope.user == null ) {
+					console.log("MUST CHANGE ROUTE NOW !!");
+					$location.path("/login" );
+				}
+			}
+   
+		});
+
 	});
 
 	app.config(function($stateProvider, $urlRouterProvider, $controllerProvider){
@@ -76,7 +100,7 @@
 		$stateProvider
 			// you can set this to no template if you just want to use the html in the page
 			.state('home', {
-				url: "/",
+				url: "/home",
 				templateUrl: viewsPrefix + "home.html",
 				data: {
 					pageTitle: 'Home'
@@ -104,6 +128,14 @@
 				controller: 'OrdersCtrl',
 				data: {
 					pageTitle: 'Orders'
+				}
+			})
+			.state('login', {
+				url: "/",
+				templateUrl: viewsPrefix + "login.html",
+				controller: 'nav',
+				data: {
+					pageTitle: 'Login'
 				}
 			})
 	})
