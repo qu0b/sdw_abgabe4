@@ -13,7 +13,7 @@ angular.module('navController', ["firebase"])
 		}
 
 		$scope.submit = function() {
-	      	console.log("Pressed sign in button");
+	      	console.log("login");
 	        if ($scope.login_email && $scope.login_pw) {
 	   			console.log($scope.login_email);
 	   			console.log($scope.login_pw);
@@ -35,46 +35,7 @@ angular.module('navController', ["firebase"])
 
 				});
 	        }
-	      };
-
-
-
-		$scope.register = function()
-		{
-			var ModalController2 = function ($scope, $modalInstance) {
-				$scope.dialogTitle = "Register";
-
-					$scope.submit = function() {
-						console.log("Registering user");
-						if ($scope.register_email && $scope.register_pw) {
-						console.log($scope.login_email, $scope.login_pw);
-
-						firebase.auth().createUserWithEmailAndPassword($scope.register_email, $scope.register_pw).then(function(user) {
-
-							$modalInstance.close();
-
-						}, function(error) {
-						// Handle Errors here.
-						var errorCode = error.code;
-						var errorMessage = error.message;
-
-						console.log(error.message);
-						// ...
-						$scope.$apply(function(){
-							$scope.loginError = error.message;
-						});
-						});
-
-						}
-					};
-
-			};
-
-			$modal.open({
-					templateUrl: 'views/registerModal.html',
-					controller: ModalController2
-				});
-		}
+	    };
 
 		$scope.title = 'Backs ERP System';
 
@@ -88,19 +49,23 @@ angular.module('navController', ["firebase"])
 		$scope.pages = [
 			{
 				name: 'Home',
-				url: '#/home'
+				url: '#/home',
+				hide: false
 			},
 			{
 				name: 'Bills',
-				url: '#/bills'
+				url: '#/bills',
+				hide: false
 			},
 			{
 				name: 'Orders',
-				url: '#/orders'
+				url: '#/orders',
+				hide: false
 			},
 			{
 				name: 'Users',
-				url: '#/users'
+				url: '#/users',
+				hide: false
 			}
 		]
 	})
@@ -138,19 +103,7 @@ angular.module('navController', ["firebase"])
 
   		if ($scope.user_email && $scope.user_pw && $scope.user_role) {
 
-  		
-
-			doIt();
-
-
-
-  		}
-
-  	}
-
-  	function doIt() {
-
-  		var config = {
+			var config = {
 		    apiKey: "AIzaSyBXl1fqqllplpJQXC-wR-Ay3qTpQUV4ZKY",
 		    authDomain: "abgabe4.firebaseapp.com",
 		    databaseURL: "https://abgabe4.firebaseio.com",
@@ -158,7 +111,7 @@ angular.module('navController', ["firebase"])
 		    messagingSenderId: "692350034443"
 			};
 
-  		var secondaryApp = firebase.initializeApp(config, "Secondary");
+  			var secondaryApp = firebase.initializeApp(config, "Secondary");
 
 	  		secondaryApp.auth().createUserWithEmailAndPassword($scope.user_email, $scope.user_pw).then(function(newuser) {
 	  			//success
@@ -169,13 +122,18 @@ angular.module('navController', ["firebase"])
 				});
 
 	  			secondaryApp.auth().signOut();
+	  			secondaryApp.delete()
+				  .then(function() {
+				    console.log("App deleted successfully");
+				  })
+				  .catch(function(error) {
+				    console.log("Error deleting app:", error);
+  				});
 
 	  			firebase.database().ref('users/' + newuser.uid).set({
 				    email: newuser.email,
 				    role: $scope.user_role
 				});
-
-				
 
 	  			$scope.errormessage = "";
 				$scope.user_email = $scope.user_pw = $scope.user_role = "";
@@ -187,6 +145,11 @@ angular.module('navController', ["firebase"])
 				$scope.errormessage = error.message;
 				$scope.$applyAsync();
 			});
+
+
+
+  		}
+
   	}
 		
 })
@@ -195,6 +158,15 @@ angular.module('navController', ["firebase"])
 
 	var ref = firebase.database().ref().child("orders");
   	$scope.orders = $firebaseArray(ref);
+
+  	$scope.orders.$loaded()
+	  .then(function(x) {
+	    $scope.show_orders=true;
+	  })
+	  .catch(function(error) {
+	    $scope.show_orders=false;
+	    $scope.errormessage="Error: "+error.message;
+	  });
 
   	$scope.submit = function() {
   		console.log("save order");
@@ -213,6 +185,15 @@ angular.module('navController', ["firebase"])
 
 	var ref = firebase.database().ref().child("bills");
   	$scope.bills = $firebaseArray(ref);
+
+  	$scope.bills.$loaded()
+	  .then(function(x) {
+	    $scope.show_bills=true;
+	  })
+	  .catch(function(error) {
+	    $scope.show_bills=false;
+	    $scope.errormessage="Error: "+error.message;
+	  });
 
   	$scope.submit = function() {
   		console.log("save bill");

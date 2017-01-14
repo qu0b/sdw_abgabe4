@@ -43,6 +43,9 @@ div.well{
     <div class="Absolute-Center is-Responsive">
       <div id="logo-container"></div>
       <div class="col-sm-12 col-md-10 col-md-offset-1">
+        <div class="page-header">
+          <h3><font color="white">Backs ERP Cloud</font></h3>
+        </div>
         <form id="loginForm" ng-submit="submit()">
           <div class="form-group input-group">
             <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
@@ -55,7 +58,8 @@ div.well{
           <div class="form-group">
             <input type="submit" id="submit" class="btn btn-def btn-block" value="Login" />
           </div>
-        </form>        
+        </form>
+        <p><font color="red">{{loginError}}</font></p>      
       </div>  
     </div>    
   </div>

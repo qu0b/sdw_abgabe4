@@ -69,7 +69,7 @@
         </script>
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
-            <li ng-repeat="page in pages" ng-class="{active: isUrl(page.url)}" ng-include="'nav-item.html'">
+            <li ng-repeat="page in pages" ng-class="{active: isUrl(page.url)}" ng-hide="page.hide" ng-include="'nav-item.html'">
             </li>
              <li class="nav-item">
               <a class="nav-link" ng-click="logout()">{{loginstatus}}</a>
