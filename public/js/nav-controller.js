@@ -2,110 +2,40 @@ angular.module('navController', ["firebase"])
 
 	.controller('nav', function($scope, $state, $modal, $firebaseArray) {
 
-		$scope.loginLogout = function() {
 
-			//check current user
-			var user = firebase.auth().currentUser;
-
-			if (user) {
-				console.log(user)
-				//if there is a user, log him out
-
-				console.log("doLogout");
-
-				firebase.auth().signOut().then(function() {
-			  		// Sign-out successful.
-				}, function(error) {
-			  		// An error happened.
-				});
-
-			} else {
-				console.log("getCurrentUser: No user currently logged in.")
-				//if there is no user, show login modal
-
-				//hilfscontroller fuer das modal
-				var ModalController = function ($scope, $modalInstance) {
-				  $scope.dialogTitle = "Login";
-
-			      $scope.submit = function() {
-			      	console.log("Pressed sign in button");
-			        if ($scope.login_email && $scope.login_pw) {
-			   			console.log($scope.login_email);
-			   			console.log($scope.login_pw);
-
-			   			firebase.auth().signInWithEmailAndPassword($scope.login_email, $scope.login_pw).then(function(user) {
-
-			   				$modalInstance.close();
-
-			   			}, function(error) {
-						  // Handle Errors here.
-						  var errorCode = error.code;
-						  var errorMessage = error.message;
-
-						  console.log(error.message);
-						  // ...
-						  $scope.$apply(function(){
-						    $scope.loginError = error.message;
-						  });
-
-						});
-			        }
-			      };
-
-				};
-
-				$modal.open({
-			      templateUrl: 'views/loginModal.html',
-			      controller: ModalController
-			    });
-
-
-			}
-
-
-
-
-
-
-
+		$scope.logout = function() {
+			console.log("nav: logout");
+			firebase.auth().signOut().then(function() {
+			  // Sign-out successful.
+			}, function(error) {
+			  // An error happened.
+			});
 		}
 
-		$scope.register = function()
-		{
-			var ModalController2 = function ($scope, $modalInstance) {
-				$scope.dialogTitle = "Register";
+		$scope.submit = function() {
+	      	console.log("login");
+	        if ($scope.login_email && $scope.login_pw) {
+	   			console.log($scope.login_email);
+	   			console.log($scope.login_pw);
 
-					$scope.submit = function() {
-						console.log("Registering user");
-						if ($scope.register_email && $scope.register_pw) {
-						console.log($scope.login_email, $scope.login_pw);
+	   			firebase.auth().signInWithEmailAndPassword($scope.login_email, $scope.login_pw).then(function(user) {
 
-						firebase.auth().createUserWithEmailAndPassword($scope.register_email, $scope.register_pw).then(function(user) {
+	   				//$location.path( "/home" );
 
-							$modalInstance.close();
+	   			}, function(error) {
+				  // Handle Errors here.
+				  var errorCode = error.code;
+				  var errorMessage = error.message;
 
-						}, function(error) {
-						// Handle Errors here.
-						var errorCode = error.code;
-						var errorMessage = error.message;
+				  console.log(error.message);
+				  // ...
+				  $scope.$apply(function(){
+				    $scope.loginError = error.message;
+				  });
 
-						console.log(error.message);
-						// ...
-						$scope.$apply(function(){
-							$scope.loginError = error.message;
-						});
-					});
-
-						}
-					};
-
-			};
-
-			$modal.open({
-					templateUrl: 'views/registerModal.html',
-					controller: ModalController2
 				});
-		}
+	        }
+	    };
 
 		$scope.title = 'Backs ERP System';
 
@@ -119,35 +49,124 @@ angular.module('navController', ["firebase"])
 		$scope.pages = [
 			{
 				name: 'Home',
-				url: '#/'
+				url: '#/home',
+				hide: false
 			},
 			{
 				name: 'Bills',
-				url: '#/bills'
+				url: '#/bills',
+				hide: false
 			},
 			{
 				name: 'Orders',
-				url: '#/orders'
+				url: '#/orders',
+				hide: false
 			},
 			{
 				name: 'Users',
-				url: '#/users'
+				url: '#/users',
+				hide: false
 			}
 		]
 	})
 
 
 
-.controller('UsersCtrl', function($scope) {
+.controller('UsersCtrl', function($scope, $rootScope) {
+
+	$scope.isAdmin = false;
+
+	if ($rootScope.user.displayName == "Admin") { $scope.isAdmin = true};
+
+	$scope.roles = ["Admin", "Produktionsbetrieb", "Kunde", "Lieferant"];
+
+	var database = firebase.database();
+
+	$scope.users= {};
+
+	var usersRef = firebase.database().ref('users/');
+	usersRef.on('value', function(snapshot) {
+
+			$scope.users = snapshot.val();
+	  		console.log($scope.users);
+	  		console.log($scope.users.Kunde);
+	  		$scope.$applyAsync();
+			  
+	});
+
+	$scope.submit = function() {
+  		console.log("UsersCtrl: make user");
+
+  		console.log($scope.user_email);
+  		console.log($scope.user_pw);
+  		console.log($scope.user_role);
+
+  		if ($scope.user_email && $scope.user_pw && $scope.user_role) {
+
+			var config = {
+		    apiKey: "AIzaSyBXl1fqqllplpJQXC-wR-Ay3qTpQUV4ZKY",
+		    authDomain: "abgabe4.firebaseapp.com",
+		    databaseURL: "https://abgabe4.firebaseio.com",
+		    storageBucket: "abgabe4.appspot.com",
+		    messagingSenderId: "692350034443"
+			};
+
+  			var secondaryApp = firebase.initializeApp(config, "Secondary");
+
+	  		secondaryApp.auth().createUserWithEmailAndPassword($scope.user_email, $scope.user_pw).then(function(newuser) {
+	  			//success
+	  			console.log(newuser);
+
+	  			secondaryApp.auth().currentUser.updateProfile({
+				  displayName: $scope.user_role
+				});
+
+	  			secondaryApp.auth().signOut();
+	  			secondaryApp.delete()
+				  .then(function() {
+				    console.log("App deleted successfully");
+				  })
+				  .catch(function(error) {
+				    console.log("Error deleting app:", error);
+  				});
+
+	  			firebase.database().ref('users/' + newuser.uid).set({
+				    email: newuser.email,
+				    role: $scope.user_role
+				});
+
+	  			$scope.errormessage = "";
+				$scope.user_email = $scope.user_pw = $scope.user_role = "";
 
 
+			}, function(error) {
+				var errorMessage = error.message;
+				console.log(error.message);
+				$scope.errormessage = error.message;
+				$scope.$applyAsync();
+			});
+
+
+
+  		}
+
+  	}
 		
 })
 
 .controller('OrdersCtrl', function($scope, $firebaseArray) {
 
-	var ref = firebase.database().ref().child("unencrypted_orders");
+	var ref = firebase.database().ref().child("orders");
   	$scope.orders = $firebaseArray(ref);
+
+  	$scope.orders.$loaded()
+	  .then(function(x) {
+	    $scope.show_orders=true;
+	  })
+	  .catch(function(error) {
+	    $scope.show_orders=false;
+	    $scope.errormessage="Error: "+error.message;
+	  });
 
   	$scope.submit = function() {
   		console.log("save order");
@@ -164,8 +183,17 @@ angular.module('navController', ["firebase"])
 
 .controller('BillsCtrl', function($scope, $firebaseArray) {
 
-	var ref = firebase.database().ref().child("unencrypted_bills");
+	var ref = firebase.database().ref().child("bills");
   	$scope.bills = $firebaseArray(ref);
+
+  	$scope.bills.$loaded()
+	  .then(function(x) {
+	    $scope.show_bills=true;
+	  })
+	  .catch(function(error) {
+	    $scope.show_bills=false;
+	    $scope.errormessage="Error: "+error.message;
+	  });
 
   	$scope.submit = function() {
   		console.log("save bill");

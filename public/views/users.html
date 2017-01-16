@@ -1,23 +1,56 @@
 <div class="container theme-showcase" role="main">
-  <div class="page-header">
-    <h1>Users</h1>
-  </div>
-  <p>Current user: {{user.email}}</p>
-    
-      <!--<table class="table table-striped">
+<div class="page-header">
+      <h5>Logged in as {{user.email}} ({{user.displayName}})</h5>
+      </div>
+ 
+
+      <div class="page-header">
+      <h2>Users</h2>
+      </div>
+      <!--<p>Current user: {{user.email}}</p>-->
+      <table class="table table-striped">
         <thead>
           <tr>
-            <th>#</th>
-            <th>Title</th>
-            <th>Amount</th>
+            <th>Email</th>
+            <th>Role</th>
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>yaa</td>
-            <td>yaa</td>
-            <td>yaa</td>
+          <tr ng-repeat="user in users">
+            <td>{{user.email}}</td>
+            <td>{{user.role}}</td>
           </tr>
         </tbody>
-      </table>-->
+      </table>
 
+      
+
+  <div ng-show="isAdmin">
+    <div class="page-header">
+      <h2>Create new user</h2>
+    </div>
+
+    <div class="modal-body" id="modal-body">
+        <ul>
+          <form class="form-inline" ng-submit="submit()">
+            <div class="form-group">
+              <input type="text" class="form-control" ng-model="user_email" name="text" placeholder="Email"/>
+            </div>
+            
+           <div class="form-group">
+              <input type="text" class="form-control" ng-model="user_pw" name="text" placeholder="Password"/>
+            </div>
+
+            <div class="form-group">
+              <select ng-model="user_role" class="form-control" id="sel1">
+                <option ng-repeat="x in roles" value="{{x}}">{{x}}</option>
+              </select>
+            </div>
+
+            <input type="submit" id="submit" class="btn btn-primary" value="Save" />
+          </form>
+          <font color="red">{{errormessage}}</font>
+        </ul>
+    </div>
+  </div>
+</div>
