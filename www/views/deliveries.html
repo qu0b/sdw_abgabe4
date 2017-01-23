@@ -1,50 +1,50 @@
 <div class="container theme-showcase" role="main">
   <div class="page-header">
-    <h2>Bills</h2>
+    <h2>Deliveries</h2>
   </div>
   <p>{{errormessage}}</p>
-  
-    <div ng-show="show_bills">
+
+    <div ng-show="show_deliveries">
       <table class="table table-striped">
         <thead>
           <tr>
             <th>#</th>
             <th>Title</th>
-            <th>Amount</th>
+            <th>Quantity</th>
           </tr>
         </thead>
         <tbody>
-          <tr ng-repeat="bill in bills">
-            <td>{{ bill.no }}</td>
-            <td>{{ bill.title }}</td>
-            <td>{{ bill.amount }}</td>
+          <tr ng-repeat="delivery in deliveries">
+            <td>{{ delivery.no }}</td>
+            <td>{{ delivery.title }}</td>
+            <td>{{ delivery.quantity }}</td>
           </tr>
         </tbody>
       </table>
 
 <div class="page-header">
-    <h2>Create new bill</h2>
+    <h2>Create new delivery</h2>
   </div>
 
 <div class="modal-body" id="modal-body">
     <ul>
       <form class="form-inline" ng-submit="submit()">
         <div class="form-group">
-          <input type="text" class="form-control" ng-model="bill_no" name="text" placeholder="Number"/>
+          <input type="text" class="form-control" ng-model="delivery_no" name="text" placeholder="Number"/>
         </div>
         
        <div class="form-group">
-          <input type="text" class="form-control" ng-model="bill_title" name="text" placeholder="Title"/>
+          <input type="text" class="form-control" ng-model="delivery_title" name="text" placeholder="Title"/>
         </div>
 
         <div class="form-group">
-          <input type="text" class="form-control" ng-model="bill_amount" name="text" placeholder="Amount"/>
+          <input type="text" class="form-control" ng-model="delivery_quantity" name="text" placeholder="Quantity"/>
         </div>
 
         <input type="submit" id="submit" class="btn btn-primary" value="Save" />
       </form>
       <p>{{loginError}}</p>
     </ul>
-    </div>
-    </div>
+</div>
+</div>
 </div>

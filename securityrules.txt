@@ -1,0 +1,22 @@
+{
+  "rules": {
+    "users": {
+        ".write": "root.child('users').child(auth.uid).child('role').val() == 'Admin'",
+        ".read": "auth != null"
+    },
+    "bills": {
+      ".write": "root.child('users').child(auth.uid).child('role').val() == 'Kunde' || root.child('users').child(auth.uid).child('role').val() == 'Lieferant' || root.child('users').child(auth.uid).child('role').val() == 'Admin'",
+      ".read": "root.child('users').child(auth.uid).child('role').val() == 'Kunde'|| root.child('users').child(auth.uid).child('role').val() == 'Lieferant' || root.child('users').child(auth.uid).child('role').val() == 'Admin'"
+    },
+    "orders": {
+      ".read": "auth != null",
+      ".write": "auth != null"
+    },
+  	"deliveries": {
+      ".write": "root.child('users').child(auth.uid).child('role').val() == 'Lieferant' || root.child('users').child(auth.uid).child('role').val() == 'Produktionsbetrieb' || root.child('users').child(auth.uid).child('role').val() == 'Admin'",
+      ".read": "root.child('users').child(auth.uid).child('role').val() == 'Lieferant' ||  root.child('users').child(auth.uid).child('role').val() == 'Produktionsbetrieb' || root.child('users').child(auth.uid).child('role').val() == 'Admin'"
+    }
+    
+  }
+}
+

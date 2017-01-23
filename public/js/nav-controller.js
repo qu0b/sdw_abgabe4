@@ -63,6 +63,11 @@ angular.module('navController', ["firebase"])
 				hide: false
 			},
 			{
+				name: 'Deliveries',
+				url: '#/deliveries',
+				hide: false
+			},
+			{
 				name: 'Users',
 				url: '#/users',
 				hide: false
@@ -175,6 +180,33 @@ angular.module('navController', ["firebase"])
   			no: $scope.order_no,
       		title: $scope.order_title,
       		quantity: $scope.order_quantity
+    	});
+  	}
+		
+})
+
+
+.controller('DeliveriesCtrl', function($scope, $firebaseArray) {
+
+	var ref = firebase.database().ref().child("deliveries");
+  	$scope.deliveries = $firebaseArray(ref);
+
+  	$scope.deliveries.$loaded()
+	  .then(function(x) {
+	    $scope.show_deliveries=true;
+	  })
+	  .catch(function(error) {
+	    $scope.show_deliveries=false;
+	    $scope.errormessage="Error: "+error.message;
+	  });
+
+  	$scope.submit = function() {
+  		console.log("save delivery");
+
+  		$scope.deliveries.$add({
+  			no: $scope.delivery_no,
+      		title: $scope.delivery_title,
+      		quantity: $scope.delivery_quantity
     	});
   	}
 		

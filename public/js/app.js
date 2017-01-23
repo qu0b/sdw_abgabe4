@@ -130,6 +130,14 @@
 					pageTitle: 'Orders'
 				}
 			})
+			.state('deliveries', {
+				url: "/deliveries",
+				templateUrl: viewsPrefix + "deliveries.html",
+				controller: 'DeliveriesCtrl',
+				data: {
+					pageTitle: 'Deliveries'
+				}
+			})
 			.state('login', {
 				url: "/",
 				templateUrl: viewsPrefix + "login.html",
